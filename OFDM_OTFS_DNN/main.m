@@ -25,10 +25,10 @@ addpath(fullfile(root, 'config'), fullfile(root, 'simulation'), fullfile(root, '
 %% Stage 0 ------------------------------------------------------------------------
 cfg = simulationConfig();
 tb  = checkToolboxes();
-cfg.paths.results = fullfile(root, 'results');
 for d = {cfg.paths.data, cfg.paths.plots, cfg.paths.models, cfg.paths.results}
     if ~exist(d{1}, 'dir'), mkdir(d{1}); end
 end
+diary(fullfile(cfg.paths.results, 'console_output.txt'));   % keep a copy of everything printed below
 rng(cfg.seed, 'twister');
 fprintf('\nTotal subcarriers: %d | candidates N_OFDM = %s | %d-QAM | weights a=%.2f b=%.2f g=%.2f d=%.2f\n\n', ...
         cfg.sys.N_total, mat2str(cfg.alloc.candidates), cfg.sys.qamOrder, ...
@@ -127,3 +127,5 @@ fprintf('\nTest-set summary: exact match %.1f %%, within +-%d: %.1f %%, DNN reac
         summary.exactMatch_pct, cfg.alloc.step, summary.within1_pct, summary.rules.dnn.scorePctOfOpt);
 fprintf('(best fixed split reaches %.2f %%), mean speed-up %.0fx.\n', summary.rules.bestFixed.scorePctOfOpt, timing.speedup);
 fprintf('=====================================================================\n');
+fprintf('\nAll outputs saved in: %s\n', cfg.paths.results);
+diary off;

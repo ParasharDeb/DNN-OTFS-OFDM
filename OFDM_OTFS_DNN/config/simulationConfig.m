@@ -100,7 +100,7 @@ cfg.validation.numFrames     = 20;
 cfg.validation.integerDelays = true;
 
 %% ---------------------------------------------------------------- run control
-cfg.run.regenerateDataset = false;     % false: reuse dataset/data/dataset.mat if compatible
+cfg.run.regenerateDataset = false;     % false: reuse results/data/dataset.mat if compatible
 cfg.run.retrain           = true;
 
 %% ---------------------------------------------------------------- constants
@@ -109,10 +109,11 @@ cfg.const.kB = 1.380649e-23;           % Boltzmann constant [J/K]
 
 %% ================================================================ derived (do not edit)
 root = fileparts(fileparts(mfilename('fullpath')));
-cfg.paths.root   = root;
-cfg.paths.data   = fullfile(root, 'dataset', 'data');
-cfg.paths.plots  = fullfile(root, 'plots');
-cfg.paths.models = fullfile(root, 'models');
+cfg.paths.root    = root;
+cfg.paths.results = fullfile(root, 'results');              % every output goes here
+cfg.paths.data    = fullfile(cfg.paths.results, 'data');
+cfg.paths.plots   = fullfile(cfg.paths.results, 'plots');
+cfg.paths.models  = fullfile(cfg.paths.results, 'models');
 
 cfg.sys.Ts   = 1 / (cfg.sys.Nfft * cfg.sys.scs);              % sample period [s]
 cfg.sys.Tcp  = cfg.sys.Ncp * cfg.sys.Ts;                       % CP duration [s]
